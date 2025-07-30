@@ -185,6 +185,15 @@ We offer various installation alternatives, including non-Docker native installa
 
 Look at the [Local Development Guide](https://docs.openwebui.com/getting-started/advanced-topics/development) for instructions on setting up a local development environment.
 
+### Running with vLLM and TensorRT-LLM
+
+If you want to deploy Open WebUI with a high-performance backend, you can run it against a [vLLM](https://github.com/vllm-project/vllm) server accelerated by TensorRT-LLM. A step-by-step guide and an example `docker-compose.vllm.yaml` configuration are available in [docs/vllm/README.md](./docs/vllm/README.md).
+
+```bash
+docker compose -f docker-compose.vllm.yaml up -d
+```
+
+
 ### Troubleshooting
 
 Encountering connection issues? Our [Open WebUI Documentation](https://docs.openwebui.com/troubleshooting/) has got you covered. For further assistance and to join our vibrant community, visit the [Open WebUI Discord](https://discord.gg/5rJgQTnV4s).

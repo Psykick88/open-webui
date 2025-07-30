@@ -1,0 +1,33 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:cuda
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    environment:
+      - ENABLE_OPENAI_API=true
+      - OPENAI_API_BASE_URLS=http://vllm-server:8000/v1
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      - vllm-server
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  vllm-server:
+    image: nvcr.io/nvidia/tensorrtllm:v23.10-py3
+    command: >
+      python3 -m vllm.entrypoints.openai.api_server
+      --model /models/MythoMax-L2-13B
+      --tensor-parallel-size 2
+      --download-dir /models/cache
+    volumes:
+      - /path/to/models:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+volumes:
+  open-webui: {}
